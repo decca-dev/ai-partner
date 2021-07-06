@@ -1,3 +1,10 @@
+window.addEventListener('load', () => {
+    alert(9)
+})
+
+// if(localStorage.getItem('data')) {
+//     location.href = './pages/main.html'
+// }
 const form = document.querySelector('#create');
 const errorsDiv = document.querySelector('#errors');
 
