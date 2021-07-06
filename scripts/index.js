@@ -1,10 +1,9 @@
-window.addEventListener('load', () => {
-    alert(9)
-})
+window.onload = () => {
+    if(localStorage.getItem('data')) {
+        location.href = './main.html'
+    }
+}
 
-// if(localStorage.getItem('data')) {
-//     location.href = './pages/main.html'
-// }
 const form = document.querySelector('#create');
 const errorsDiv = document.querySelector('#errors');
 
@@ -46,11 +45,14 @@ form.addEventListener('submit', (e) => {
         gender: selectedGender,
         name: nameEl.value,
         age: ageEl.value,
-        username: usernameEl.value
+        username: usernameEl.value,
+        responses: []
     };
 
     const data = JSON.stringify(payload);
 
     localStorage.setItem('data', data);
+
+    location.href = "./main.html"
 
 })

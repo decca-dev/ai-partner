@@ -1,5 +1,28 @@
-const button = document.querySelector('.talk');
-const content = document.querySelector('.content');
+window.onload = () => {
+    if (!localStorage.getItem('data')) {
+        return location.href = "./index.html"
+    }
+}
+
+const body = document.querySelector('#partner-body');
+const button = document.querySelector('#talk');
+const content = document.querySelector('#content');
+
+const data = JSON.parse(localStorage.getItem('data'));
+
+document.title = `Talk to ${data.name}`;
+button.innerHTML = `Talk to ${data.name}`;
+
+if (data.gender === "male") {
+    body.classList.add('bg-gradient-to-r');
+    body.classList.add('from-green-400');
+    body.classList.add('to-blue-500');
+}else {
+    body.classList.add('bg-gradient-to-r');
+    body.classList.add('from-purple-400');
+    body.classList.add('via-pink-500');
+    body.classList.add('to-red-500');
+}
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
@@ -8,8 +31,7 @@ recognition.onstart = () => {
     content.textContent = "";
 }
 
-
-recognition.onresult = (event) => {
+recognition.onresult = async (event) => {
     const current = event.resultIndex;
     const transcript = event.results[current][0].transcript;
     content.textContent = transcript;
@@ -23,9 +45,9 @@ button.addEventListener('click', () => {
 function readOutloud(message){
     const speech = new SpeechSynthesisUtterance();
 
-    speech.text = "Excuse me babe?"
+    speech.text = "Excuse me babe?";
 
-    if (message.includes('pp')) {
+    if (message.includes('penis')) {
         const finalText = "You have a very big pp";
         speech.text = finalText;
     }
@@ -33,5 +55,6 @@ function readOutloud(message){
     speech.volume = 1;
     speech.rate = 1;
     speech.pitch = 1;
-    window.speechSynthesis.speak(speech);
+
+    speechSynthesis.speak(speech);
 }
