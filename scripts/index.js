@@ -3,7 +3,7 @@ window.addEventListener('load', () => {
 })
 
 // if(localStorage.getItem('data')) {
-//     location.href = './main.html'
+//     location.href = './pages/main.html'
 // }
 const form = document.querySelector('#create');
 const errorsDiv = document.querySelector('#errors');
