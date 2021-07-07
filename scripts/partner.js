@@ -34,10 +34,6 @@ if (responses.length > 0) {
     const tbody = document.querySelector('#t-body')
     responses.forEach((resp) => {
         const tr = document.createElement('tr');
-        const th = document.createElement('th');
-        th.scope = 'row';
-        th.id = "resp-num";
-        tr.appendChild(th);
         const td1 = document.createElement('td');
         td1.id = "resp-trigger";
         td1.appendChild(document.createTextNode(resp.trigger));
@@ -91,10 +87,6 @@ addBtn.addEventListener('click', () => {
     const tbody = document.querySelector('#t-body')
 
     const tr = document.createElement('tr');
-    const th = document.createElement('th');
-    th.scope = 'row';
-    th.id = "resp-num";
-    tr.appendChild(th);
     const td1 = document.createElement('td');
     td1.id = "resp-trigger";
     td1.appendChild(document.createTextNode(inputTrigger.value));
@@ -104,6 +96,9 @@ addBtn.addEventListener('click', () => {
     td2.appendChild(document.createTextNode(inputResp.value));
     tr.appendChild(td2);
     tbody.appendChild(tr);
+
+    inputTrigger.innerHTML = "";
+    inputResp.innerHTML = "";
 })
 
 // Speech logic
@@ -133,11 +128,6 @@ function readOutloud(message){
 
     speech.text = "Excuse me babe?";
 
-    if (message.includes('hello') || message.includes('hi')) {
-        const finalText = "How are you doing babe?";
-        speech.text = finalText;
-    };
-
     if (responses.length > 0) {
         responses.forEach((resp) => {
             if (message.includes(resp.trigger)) {
@@ -146,6 +136,11 @@ function readOutloud(message){
             }
         })
     }
+
+    if (message.includes('hello') || message.includes('hi')) {
+        const finalText = "How are you doing babe?";
+        speech.text = finalText;
+    };
     
     speech.volume = 1;
     speech.rate = 1;
