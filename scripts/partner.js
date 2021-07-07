@@ -2,7 +2,7 @@
 
 window.onload = () => {
     if (!localStorage.getItem('data')) {
-        return location.href = "./index.html"
+        return location.href = "../index.html"
     }
 }
 
@@ -34,6 +34,7 @@ if (responses.length > 0) {
     const tbody = document.querySelector('#t-body')
     responses.forEach((resp) => {
         const tr = document.createElement('tr');
+        tr.id = "resp-r";
         const td1 = document.createElement('td');
         td1.id = "resp-trigger";
         td1.appendChild(document.createTextNode(resp.trigger));
@@ -42,6 +43,13 @@ if (responses.length > 0) {
         td2.id = "resp-resp";
         td2.appendChild(document.createTextNode(resp.response));
         tr.appendChild(td2);
+        const delBtn = document.createElement('button');
+        delBtn.id = "delete";
+        delBtn.appendChild(document.createTextNode('X'));
+        delBtn.classList.add('btn');
+        delBtn.classList.add('btn-danger');
+        delBtn.classList.add('ml-3');
+        td2.appendChild(delBtn)
         tbody.appendChild(tr);
     })
 }
@@ -57,29 +65,23 @@ addBtn.addEventListener('click', () => {
         return errorsDiv.innerHTML = genError('Please fill in all fields before adding.')
     }
 
+    let payWithoutTheLoad = [];
+
+    for (let i = 0; i < responses.length; i++) {
+        payWithoutTheLoad.push(responses[i])
+    }
+
+    payWithoutTheLoad.push({
+        trigger: inputTrigger.value,
+        response: inputResp.value,
+    })
+
     let payload = {
         name: data.name,
         gender: data.gender,
         age: data.age,
         username: data.username,
-        responses: null,
-    }
-
-    if (responses.length > 0) {
-        payload.responses = [
-            responses,
-            {
-                trigger: inputTrigger.value,
-                response: inputResp.value,
-            }
-        ]
-    }else {
-        payload.responses = [
-            {
-                trigger: inputTrigger.value,
-                response: inputResp.value,
-            }
-        ]
+        responses: payWithoutTheLoad
     }
 
     localStorage.setItem('data', JSON.stringify(payload))
@@ -87,6 +89,7 @@ addBtn.addEventListener('click', () => {
     const tbody = document.querySelector('#t-body')
 
     const tr = document.createElement('tr');
+    tr.id = "resp-r";
     const td1 = document.createElement('td');
     td1.id = "resp-trigger";
     td1.appendChild(document.createTextNode(inputTrigger.value));
@@ -95,11 +98,51 @@ addBtn.addEventListener('click', () => {
     td2.id = "resp-resp";
     td2.appendChild(document.createTextNode(inputResp.value));
     tr.appendChild(td2);
+    const delBtn = document.createElement('button');
+    delBtn.id = "delete";
+    delBtn.appendChild(document.createTextNode('X'));
+    delBtn.classList.add('btn');
+    delBtn.classList.add('btn-danger');
+    delBtn.classList.add('ml-3');
+    td2.appendChild(delBtn)
     tbody.appendChild(tr);
 
-    inputTrigger.innerHTML = "";
-    inputResp.innerHTML = "";
+    inputTrigger.value = "";
+    inputResp.value = "";
 })
+
+// Delete responses
+
+const delBtn = document.querySelectorAll('#delete');
+
+try {
+    for (let i = 0; i < delBtn.length; i++) {
+        delBtn[i].addEventListener('click', () => {
+            const row = delBtn[i].parentElement.parentElement;
+            document.querySelector('#t-body').removeChild(row);
+        
+            let rData = {
+                trigger: document.querySelectorAll('#resp-trigger')[i].innerHTML,
+                response: delBtn[i].parentElement.innerHTML,
+            }
+        
+            let newD = responses.slice(rData, 0);
+        
+            let payload = {
+                name: data.name,
+                gender: data.gender,
+                age: data.age,
+                username: data.username,
+                responses: newD
+            }
+        
+            localStorage.setItem('data', JSON.stringify(payload));
+        })
+    }
+        
+} catch (e) {
+    errorsDiv.innerHTML = genError('bruh')    
+}
 
 // Speech logic
 
@@ -124,25 +167,18 @@ button.addEventListener('click', () => {
 // Reading messages
 
 function readOutloud(message){
-    const speech = new SpeechSynthesisUtterance();
+    const speech = new SpeechSynthesisUtterance(message);
 
-    speech.text = "Excuse me babe?";
+    speech.text = "I couldn't understand what you said.";
 
-    if (responses.length > 0) {
-        responses.forEach((resp) => {
-            if (message.includes(resp.trigger)) {
-                const finalText = resp.response;
-                speech.text = finalText;
-            }
-        })
-    }
+    responses.forEach((resp) => {
+        if (message.includes(resp.trigger)) {
+            const finalText = resp.response;
+            speech.text = finalText;
+        }
+    })
 
-    if (message.includes('hello') || message.includes('hi')) {
-        const finalText = "How are you doing babe?";
-        speech.text = finalText;
-    };
-    
-    speech.volume = 1;
+    speech.volume = 10;
     speech.rate = 1;
     speech.pitch = 1;
 

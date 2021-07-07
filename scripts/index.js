@@ -1,6 +1,6 @@
 window.onload = () => {
     if(localStorage.getItem('data')) {
-        location.href = './main.html'
+        location.href = "./pages/main.html"
     }
 }
 
@@ -46,13 +46,22 @@ form.addEventListener('submit', (e) => {
         name: nameEl.value,
         age: ageEl.value,
         username: usernameEl.value,
-        responses: []
+        responses: [
+            {
+                trigger: "hello",
+                response: `Hey there ${usernameEl.value}, how was your day?`,
+            },
+            {
+                trigger: "how is the weather",
+                response: `I don't know do you even go out? Stop asking you're stuck here with me!`,
+            },
+        ]
     };
 
     const data = JSON.stringify(payload);
 
     localStorage.setItem('data', data);
 
-    location.href = "./main.html"
+    location.href = "./pages/main.html"
 
 })
