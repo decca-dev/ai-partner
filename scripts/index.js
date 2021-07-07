@@ -1,6 +1,6 @@
 window.onload = () => {
     if(localStorage.getItem('data')) {
-        location.href = "./pages/main.html"
+        location.href = "./main.html"
     }
 }
 
@@ -62,6 +62,6 @@ form.addEventListener('submit', (e) => {
 
     localStorage.setItem('data', data);
 
-    location.href = "./pages/main.html"
+    location.href = "./main.html"
 
 })

@@ -2,7 +2,7 @@
 
 window.onload = () => {
     if (!localStorage.getItem('data')) {
-        return location.href = "../index.html"
+        return location.href = "./index.html"
     }
 }
 
