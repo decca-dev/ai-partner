@@ -185,6 +185,11 @@ function readOutloud(message){
     speechSynthesis.speak(speech);
 }
 
+function deletePartner(){
+    if (localStorage.getItem('data')) localStorage.clear();
+    return location.href = "./index.html"
+}
+
 //Utility functions
 
 function genError(text){

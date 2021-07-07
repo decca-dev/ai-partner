@@ -32,7 +32,27 @@
             </thead>
             <tbody id="t-body">
             </tbody>
-          </table>
+        </table>        
+        <button type="button" class="btn btn-danger mt-10 mb-10" data-bs-toggle="modal" data-bs-target="#deletePartner">
+          Delete Partner
+        </button>
+        <div class="modal fade" id="deletePartner" tabindex="-1" aria-labelledby="deletePartnerLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deletePartnerLabel">Delete your partner's data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete your partner's data? This action cannot be undone.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="deletePartner()">Yes</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
     <script src="./scripts/partner.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
