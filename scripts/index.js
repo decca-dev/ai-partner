@@ -46,16 +46,7 @@ form.addEventListener('submit', (e) => {
         name: nameEl.value,
         age: ageEl.value,
         username: usernameEl.value,
-        responses: [
-            {
-                trigger: "hello",
-                response: `Hey there ${usernameEl.value}, how was your day?`,
-            },
-            {
-                trigger: "how is the weather",
-                response: `I don't know do you even go out? Stop asking you're stuck here with me!`,
-            },
-        ]
+        responses: []
     };
 
     const data = JSON.stringify(payload);

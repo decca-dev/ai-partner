@@ -157,7 +157,7 @@ recognition.onresult = async (event) => {
     const current = event.resultIndex;
     const transcript = event.results[current][0].transcript;
     content.textContent = transcript;
-    readOutloud(transcript)
+    await readOutloud(transcript)
 }
 
 button.addEventListener('click', () => {
@@ -166,17 +166,22 @@ button.addEventListener('click', () => {
 
 // Reading messages
 
-function readOutloud(message){
+async function readOutloud(message){
     const speech = new SpeechSynthesisUtterance(message);
 
-    speech.text = "I couldn't understand what you said.";
-
-    responses.forEach((resp) => {
-        if (message.includes(resp.trigger)) {
-            const finalText = resp.response;
-            speech.text = finalText;
-        }
-    })
+    if (responses.length > 0) {
+        responses.forEach((resp) => {
+            if (message.includes(resp.trigger)) {
+                const finalText = resp.response;
+                speech.text = finalText;
+            }
+        })
+    }else {
+        const response = await fetch(`https://api.monkedev.com/fun/chat?msg=${encodeURIComponent(message)}`)
+        const d = await response.json()
+        console.log(d.response);
+        speech.text = d.response;
+    }
 
     speech.volume = 10;
     speech.rate = 1;
