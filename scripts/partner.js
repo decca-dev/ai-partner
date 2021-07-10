@@ -171,7 +171,7 @@ async function readOutloud(message){
 
     if (responses.length > 0) {
         responses.forEach((resp) => {
-            if (message.includes(resp.trigger)) {
+            if (message.toLowerCase().includes(resp.trigger.toLowerCase())) {
                 const finalText = resp.response;
                 speech.text = finalText;
             }
