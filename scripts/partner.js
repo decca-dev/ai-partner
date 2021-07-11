@@ -109,6 +109,8 @@ addBtn.addEventListener('click', () => {
 
     inputTrigger.value = "";
     inputResp.value = "";
+
+    location.reload();
 })
 
 // Delete responses
@@ -118,9 +120,7 @@ const delBtn = document.querySelectorAll('#delete');
 try {
     for (let i = 0; i < delBtn.length; i++) {
         delBtn[i].addEventListener('click', () => {
-            const row = delBtn[i].parentElement.parentElement;
-            document.querySelector('#t-body').removeChild(row);
-        
+
             let rData = {
                 trigger: document.querySelectorAll('#resp-trigger')[i].innerHTML,
                 response: delBtn[i].parentElement.innerHTML,
@@ -137,6 +137,11 @@ try {
             }
         
             localStorage.setItem('data', JSON.stringify(payload));
+
+            const row = delBtn[i].parentElement.parentElement;
+            document.querySelector('#t-body').removeChild(row);
+
+            location.reload();
         })
     }
         
